@@ -9,7 +9,6 @@
     </div>
     <div v-if="getLoader" class="loader-box">
       <Loader  />
-      
     </div>
   </div>
 </template>

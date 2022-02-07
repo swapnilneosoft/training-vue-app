@@ -11,7 +11,26 @@
         <Sidebar />
         <!-- Sidebar ends her -->
         <div class="col-sm-9">
-            <Order  v-for="(orders,index) in myorders" :key="index" :sr="index" :order="orders" />
+          <div
+            class="row"
+            style="margin-top: 5px; padding: 10px; background-color: #000;color:white;"
+          >
+            <div class="col-sm-1">#</div>
+            <div class="col-sm-3">Order Id</div>
+            <div class="col-sm-3">Amount</div>
+            <div class="col-sm-2">Status</div>
+            <div class="col-sm-3">
+              Action
+            </div>
+          </div>
+         <div style="height:600px;overflow-y:scroll;overflow-x:hidden">
+            <Order
+            v-for="(orders, index) in myorders"
+            :key="index"
+            :sr="index"
+            :order="orders"
+          />
+         </div>
         </div>
       </div>
     </div>
@@ -25,33 +44,31 @@
 import Swal from "sweetalert2";
 import axios from "axios";
 import Sidebar from "../Sidebar/Profile.vue";
-import Order from './components/Order.vue'
-import { mapActions, mapGetters } from 'vuex';
+import Order from "./components/Order.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "ManageAddress",
-  computed:{
-      ...mapGetters(["fetchAuth",'getMyOrders']),
-      ...mapActions(['myOrders']),
+  computed: {
+    ...mapGetters(["fetchAuth", "getMyOrders"]),
+    ...mapActions(["myOrders"]),
   },
   components: {
     Sidebar,
-    Order
+    Order,
   },
   data() {
     return {
-      myorders:null
+      myorders: null,
     };
   },
-  methods: {
-    
+  methods: {},
+  beforeCreate() {
+    this.$store.dispatch("myOrders");
   },
-  beforeCreate(){
-    this.$store.dispatch('myOrders');
+  mounted() {
+    this.myorders = this.getMyOrders;
   },
-  mounted(){
-    this.myorders = this.getMyOrders
-  }
 };
 </script>
 

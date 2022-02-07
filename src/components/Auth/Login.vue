@@ -94,20 +94,43 @@ export default {
       await this.loginUser(this.login);
     },
 
+    resetForm(){
+      this.register.email = ''
+      this.register.password = ''
+      this.register.confirm_password = ''
+      this.register.firstname = ''
+      this.register.lastname = ''
+    },
     async registerSubmit() {
+      this.$store.dispatch('changeLoader',true);
       await axios
         .post("/register", this.register)
         .then((response) => {
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: `User Registered successfully , Please log in !`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          this.resetForm();
-        }).catch((err) => {
-          alert("unable to register")
+          if (response.data.status === 200) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: `User Registered success . Please sign in !`,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            this.resetForm();
+          } else {
+            Swal.fire({
+              position: "top-end",
+              icon: "error",
+              title: `Error`,
+              text: `All fields are required or Email already Registered !`,
+              showConfirmButton: true,
+              timer: 1500,
+            });
+          }
+          this.$store.dispatch('changeLoader',false);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("unable to register");
+          this.$store.dispatch('changeLoader',false);
         });
     },
   },

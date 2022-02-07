@@ -15,6 +15,7 @@ import Profile from '../views/Main/Profile.vue';
 import Wishlist from '../views/Main/Wishlist.vue';
 import ChangePassword from '../components/Profile/ChangePassword.vue';
 import Payment from '../views/Main/Payment.vue';
+import Policy from '../components/Cms/Policy.vue';
 const isAuthenticated = (to, from, next) => {
   if (store.getters.fetchAuth.isAuth) {
     next();
@@ -54,6 +55,11 @@ const routes = [
     name: 'Login',
     component: Login,
     beforeEnter: isNotAuthenticated,
+  },
+  {
+    path: '/policy',
+    name: 'Policy',
+    component: Policy,
   },
   {
     path:"/profile",
